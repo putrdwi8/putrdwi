@@ -1,0 +1,53 @@
+const originalText = document.getElementById("text").innerText;
+const input = document.getElementById("input");
+
+const kpm = document.getElementById("kpm");
+const wpm = document.getElementById("wpm");
+const accuracy = document.getElementById("accuracy");
+const correct = document.getElementById("correct");
+const wrong = document.getElementById("wrong");
+
+let startTime = null;
+
+input.addEventListener("input", function(){
+
+    if(!startTime){
+        startTime = new Date();
+    }
+
+    let typed = input.value;
+
+    let benar = 0;
+    let salah = 0;
+
+    for(let i=0;i<typed.length;i++){
+
+        if(typed[i] === originalText[i]){
+            benar++;
+        }else{
+            salah++;
+        }
+
+    }
+
+    let seconds = (new Date() - startTime)/1000;
+    if(seconds < 1) seconds = 1;
+
+    // KPM
+    let KPM = Math.round((typed.length/seconds)*60);
+
+    // WPM
+    let WPM = Math.round(((benar/5)/seconds)*60);
+
+    // Akurasi
+    let ACC = typed.length
+        ? Math.round((benar/typed.length)*100)
+        : 100;
+
+    kpm.textContent = KPM;
+    wpm.textContent = WPM;
+    accuracy.textContent = ACC + "%";
+    correct.textContent = benar;
+    wrong.textContent = salah;
+
+});
